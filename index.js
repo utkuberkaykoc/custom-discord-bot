@@ -43,7 +43,7 @@ function startBot({
 
       if (username && client.user.username !== username) {
         try {
-          await client.editSelf({ username });
+          await client.user.edit({ username });
           console.log(`🔹 Username set to: ${username}`);
         } catch (error) {
           console.error("❌ Error setting username:", error.message);
@@ -54,7 +54,7 @@ function startBot({
         try {
           const response = await fetch(avatarUrl);
           const buffer = await response.buffer();
-          await client.editSelf({
+          await client.user.edit({
             avatar: `data:image/png;base64,${buffer.toString("base64")}`,
           });
           console.log("🖼 Avatar updated successfully!");
