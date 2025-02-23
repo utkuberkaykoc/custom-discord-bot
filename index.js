@@ -27,11 +27,15 @@ function startBot({
     console.error("❌ ERROR: Bot token is required!");
     return;
   }
+  if (token === "YOUR_DISCORD_BOT_TOKEN") {
+    console.error("❌ ERROR: Please replace the 'YOUR_DISCORD_BOT_TOKEN' with your Discord bot token!");
+    return;
+  }
 
   const client = new Client({
     auth: `Bot ${token}`,
     gateway: {
-      intents: ["GUILDS", "GUILD_MESSAGES"],
+      intents: ["GUILDS", "GUILD_MESSAGES", "MESSAGE_CONTENT"]
     },
   });
 
@@ -73,7 +77,7 @@ function startBot({
 
       const command = message.content.slice(prefix.length).trim().toLowerCase();
       if (commands[command]) {
-        await message.channel.createMessage(commands[command]);
+        await message.channel.createMessage({ content: commands[command] });
       }
     } catch (error) {
       console.error("❌ Error handling message:", error.message);
