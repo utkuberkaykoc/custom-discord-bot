@@ -32,6 +32,7 @@ function startBot({
     return;
   }
 
+  try {
   const client = new Client({
     auth: `Bot ${token}`,
     gateway: {
@@ -89,6 +90,9 @@ function startBot({
   } catch (error) {
     console.error("❌ Error connecting to Discord:", error.message);
   }
+} catch (error) {
+  console.error("❌ Error creating client:", error.message);
+}
 }
 
 module.exports = { startBot };
