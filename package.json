@@ -1,29 +1,44 @@
 {
-    "name": "custom-discord-bot",
-    "version": "1.7.1",
-    "description": "A simple, customizable Discord bot using OceanicJS.",
-    "main": "index.js",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/utkuberkaykoc/custom-discord-bot.git"
-    },
-    "keywords": [
-      "discord",
-      "bot",
-      "custom-bot",
-      "oceanic",
-      "discord-bot",
-      "automation",
-      "chatbot"
-    ],
-    "author": "Utku Berkay Koç",
-    "license": "MIT",
-    "dependencies": {
-      "oceanic.js": "^1.11.2",
-      "node-fetch": "^2.6.7"
-    }
+  "name": "custom-discord-bot",
+  "version": "1.7.3",
+  "description": "A simple, customizable Discord bot using OceanicJS.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utkuberkaykoc/custom-discord-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "custom-bot",
+    "oceanic",
+    "discord-bot",
+    "automation",
+    "chatbot",
+    "discord-bot-framework",
+    "discord-bot-builder",
+    "discord-bot-commands",
+    "self-hosted-bot",
+    "discord-api",
+    "nodejs-bot",
+    "discord-moderation",
+    "discord-utilities",
+    "oceanic-bot",
+    "discord-js-alternative",
+    "discord-bot-development",
+    "discord-bot-commands-handler",
+    "gaming-bot",
+    "fun-bot",
+    "discord-bot-tutorial",
+    "dynamic-discord-bot"
+  ],
+  "author": "Utku Berkay Koç",
+  "license": "MIT",
+  "dependencies": {
+    "oceanic.js": "^1.11.2",
+    "node-fetch": "^2.6.7"
   }
-  
+}
