@@ -33,66 +33,83 @@ function startBot({
   }
 
   try {
-  const client = new Client({
-    auth: `Bot ${token}`,
-    gateway: {
-      intents: ["GUILDS", "GUILD_MESSAGES", "MESSAGE_CONTENT"]
-    },
-  });
+    const client = new Client({
+      auth: `Bot ${token}`,
+      gateway: {
+        intents: ["GUILDS", "GUILD_MESSAGES", "MESSAGE_CONTENT"]
+      },
+    });
 
-  client.on("ready", async () => {
-    try {
-      console.log(`✅ Bot is online as ${client.user.username}`);
+    client.on("ready", async () => {
+      try {
+        console.log(`✅ Bot is online as ${client.user.username}`);
 
-      client.editStatus(status, [{ name: statusMessage, type: statusType }]);
+        client.editStatus(status, [{ name: statusMessage, type: statusType }]);
 
-      if (username && client.user.username !== username) {
-        try {
-          await client.user.edit({ username });
-          console.log(`🔹 Username set to: ${username}`);
-        } catch (error) {
-          console.error("❌ Error setting username:", error.message);
+        if (username && client.user.username !== username) {
+          try {
+            await client.user.edit({ username });
+            console.log(`🔹 Username set to: ${username}`);
+          } catch (error) {
+            console.error("❌ Error setting username:", error.message);
+          }
         }
-      }
 
-      if (avatarUrl) {
-        try {
-          const response = await fetch(avatarUrl);
-          const buffer = await response.buffer();
-          await client.user.edit({
-            avatar: `data:image/png;base64,${buffer.toString("base64")}`,
+        if (avatarUrl) {
+          try {
+            const response = await fetch(avatarUrl);
+        
+            if (!response.ok) {
+              throw new Error(`❌ Failed to fetch avatar. HTTP Status: ${response.status}`);
+            }
+        
+            const buffer = await response.buffer();
+            await client.user.edit({
+              avatar: `data:image/png;base64,${buffer.toString("base64")}`,
+            });
+        
+            console.log("🌆 Avatar updated successfully!");
+          } catch (error) {
+            console.error("❌ Error setting avatar:", error.message);
+          }
+        }
+        
+
+        console.log("📜 Loaded Commands:");
+        if (Object.keys(commands).length > 0) {
+          Object.keys(commands).forEach((cmd) => {
+            console.log(`   ➜ ${prefix}${cmd}: "${commands[cmd]}"`);
           });
-          console.log("🖼 Avatar updated successfully!");
-        } catch (error) {
-          console.error("❌ Error setting avatar:", error.message);
+        } else {
+          console.log("   ❌ No custom commands set.");
         }
-      }
-    } catch (error) {
-      console.error("❌ Error during bot initialization:", error.message);
-    }
-  });
 
-  client.on("messageCreate", async (message) => {
+      } catch (error) {
+        console.error("❌ Error during bot initialization:", error.message);
+      }
+    });
+
+    client.on("messageCreate", async (message) => {
+      try {
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+        const command = message.content.slice(prefix.length).trim().toLowerCase();
+        if (commands[command]) {
+          await message.channel.createMessage({ content: `${commands[command]}` });
+        }
+      } catch (error) {
+        console.error("❌ Error handling message:", error.message);
+      }
+    });
+
     try {
-      if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-      const command = message.content.slice(prefix.length).trim().toLowerCase();
-      if (commands[command]) {
-        await message.channel.createMessage({ content: commands[command] });
-      }
+      client.connect();
     } catch (error) {
-      console.error("❌ Error handling message:", error.message);
+      console.error("❌ Error connecting to Discord:", error.message);
     }
-  });
-
-  try {
-    client.connect();
   } catch (error) {
-    console.error("❌ Error connecting to Discord:", error.message);
+    console.error("❌ Error creating client:", error.message);
   }
-} catch (error) {
-  console.error("❌ Error creating client:", error.message);
-}
 }
 
 module.exports = { startBot };
